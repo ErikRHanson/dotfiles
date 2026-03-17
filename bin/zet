@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# Setup ID and Timestamp
+# Zettelkasten ID: YYYYMMDDHHMM
+ZID=$(date "+%Y%m%d%H%M")
+TIMESTAMP=$(date "+%Y-%m-%d %H:%M")
+
+
+# Pathing (using $SECOND_BRAIN variable)
+# Defaulting to ~/Notes if $SECOND_BRAIN isn't set in environment
+ZET_DIR="${SECOND_BRAIN:-$HOME/Notes}/00-zettelkasten/zet"
+mkdir -p "$ZET_DIR"
+
+# Handle Title and Filename
+# If no title is provided, use "New Zettel"
+TITLE="${1:-New Zettel}"
+# Slugify the title for the filename (e.g., "My Note" -> "my-note")
+SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' | tr -s ' ' '_' | tr -dc 'a-z0-0-')
+FILEPATH="$ZET_DIR/${ZID}-${SLUG}.md"
+
+# --- Git Safery Check
+# if [ -d "$SECOND_BRAIN/.git" ]; then
+#    echo "Checking sync status..."
+#    cd "$SECOND_BRAIN" || exit
+
+   # Fetch changes from remote without merging
+#    git fetch --quiet
+
+   # Check if we are behiend the remote
+#    LOCAL=$(git rev-parse @)
+#    REMOTE=$(git rev-parse @{u})
+
+#    if [ "$LOCAL" != "$REMOTE" ]; then
+# 	echo "⚠️  Wait! Your Zettelkasten is out of sync with the remote."
+# 	read -p "Do you want to 'git pull' before writing? (y/n) " -n 1 -r
+# 	echo
+# 	if [[ $REPLY =~ ^[Yy]$ ]]; then
+# 	   git pull
+# 	fi
+#    fi
+   # Return to previoud dorectory
+#    cd - > /dev/null || exit
+# fi
+# -----------------------
+
+# Create Template if it doesn't exist
+if [ ! -f "$FILEPATH" ]; then
+	cat <<EOF > "$FILEPATH"
+---
+id: $ZID
+title: "$TITLE"
+date: $TIMESTAMP
+tags: [unprocessed]
+---
+
+# $TITLE
+
+
+- Source:
+
+## Notes
+- 
+
+## References
+- 
+EOF
+	echo "Created Zettel: $FILEPATH"
+fi
+
+# Open in Neovim
+nvim "$FILEPATH"
