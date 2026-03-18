@@ -3,13 +3,17 @@
 today=$(date +"%Y-%m-%d")
 tomorrow=$(gdate -d "tomorrow" '+%Y-%m-%d')
 yesterday=$(gdate -d "yesterday" '+%Y-%m-%d')
-file="$SECOND_BRAIN"'/periodic-notes/daily-notes/'$(date +"%Y-%m-%d").md
+TITLE=$(echo "${today}-daily-note")
+TITLE_YESTERDAY=$(echo "${yesterday}-daily-note")
+TITLE_TOMORROW=$(echo "${tomorrow}-daily-note")
 
+# file="$SECOND_BRAIN"'/periodic-notes/daily-notes/'$(date +"%Y-%m-%d").md
+
+file="${SECOND_BRAIN}/periodic-notes/daily-notes/${TITLE}.md"
 # The Zettelkasten ID (YYYYMMDDHHMM)
 # This serves as your "Permanent Address" for the note
 ZID=$(date "+%Y%m%d%H%M")
-# FRIENDLY_DATE=$(gdate -d '+%Y-%m-%d')
-
+TIMESTAMP=$(date "+%Y-%m-%d %H:%M")
 
 cd "$SECOND_BRAIN" || exit
 
@@ -17,10 +21,19 @@ new_note() {
    touch "$file"
 
    # Format the file with the daily template
-   cat <<EOF >"$file"
+   cat <<EOF >
+---
+id: $ZID
+title: "$TITLE"
+date: $TIMESTAMP
+tags: [daily-note]
+---
+
+$file
+
 # $today
 
-[[$yesterday]] - [[$tomorrow]]
+[[$TITLE_YESTERDAY]] - [[$TITLE_TOMORROW]]
 
 ## Intention
 
