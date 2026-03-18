@@ -21,7 +21,7 @@ new_note() {
    touch "$file"
 
    # Format the file with the daily template
-   cat <<EOF >
+   cat <<EOF >$file
 ---
 id: $ZID
 title: "$TITLE"
