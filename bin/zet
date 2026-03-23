@@ -18,30 +18,18 @@ TITLE="${1:-New Zettel}"
 SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' | tr -s ' ' '_' | tr -dc 'a-z0-0-')
 FILEPATH="$ZET_DIR/${ZID}-${SLUG}.md"
 
-# --- Git Safery Check
-# if [ -d "$SECOND_BRAIN/.git" ]; then
-#    echo "Checking sync status..."
-#    cd "$SECOND_BRAIN" || exit
 
-   # Fetch changes from remote without merging
-#    git fetch --quiet
 
-   # Check if we are behiend the remote
-#    LOCAL=$(git rev-parse @)
-#    REMOTE=$(git rev-parse @{u})
+DAILY_DATE=$(date "+%Y-%m-%d")
+DAILY_NOTE="${SECOND_BRAIN:-$HOME/Notes}/periodic-notes/daily-notes/${DAILY_DATE}-daily-note.md"
 
-#    if [ "$LOCAL" != "$REMOTE" ]; then
-# 	echo "⚠️  Wait! Your Zettelkasten is out of sync with the remote."
-# 	read -p "Do you want to 'git pull' before writing? (y/n) " -n 1 -r
-# 	echo
-# 	if [[ $REPLY =~ ^[Yy]$ ]]; then
-# 	   git pull
-# 	fi
-#    fi
-   # Return to previoud dorectory
-#    cd - > /dev/null || exit
-# fi
-# -----------------------
+if [ -f "$DAILY_NOTE" ]; then
+   # Ensure there's a newline before the link so it doesn't bunch up
+   echo -e "\n [[${ZID}-${SLUG}|${TITLE}]]" >> "$DAILY_NOTE"
+   echo "Added link to Daily Note: $DAILY_DATE"
+else
+   echo "⚠️  Daily note for today not found. Skipping link."
+fi
 
 # Create Template if it doesn't exist
 if [ ! -f "$FILEPATH" ]; then
