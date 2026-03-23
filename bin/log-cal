@@ -1,0 +1,39 @@
+#!/bin/bash
+
+ZID=$(date "+%Y%m%d%H%M")
+ZET_DIR="${SECOND_BRAIN:-$HOME/Notes}/00-zettelkasten/zet"
+mkdir -p "$ZET_DIR"
+
+DATE_STR=$(date +%Y-%m-%d)
+TITLE="Daily Calorie Log - $DATE_STR"
+FILEPATH="$ZET_DIR/${ZID}-calorie-log-${DATE_STR}.md"
+
+if [ ! -f "$FILEPATH" ]; then
+        cat <<EOF > "$FILEPATH"
+---
+id: $ZID
+title: "$TITLE"
+date: $TIMESTAMP
+tags: [health, logs, unprocessed]
+---
+
+# $TITLE
+
+| Meal | Food Item | Calories |
+| :--- | :--- | :--- |
+| Breakfast | | |
+| Lunch | | |
+| Dinner | | |
+| Snack | | |
+| | **Total** | **0** |
+
+## Notes
+- 
+
+## References
+- [[Nutrition Master List]]
+EOF
+        echo "Created Table-based Log: $FILEPATH"
+fi
+
+nvim "$FILEPATH"

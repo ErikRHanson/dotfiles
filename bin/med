@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Duration in seconds (20 minutes * 60 seconds)
+DURATION=1200
+START_TIME=$(date +%s)
+END_TIME=$((START_TIME + DURATION))
+
+echo "Meditation mode active. I'll keep the system awake for 20 minutes."
+echo "Press [CTRL+C] to stop early."
+
+while [ $(date +%s) -lt $END_TIME ]; do
+  # Simulate a 'Shift' key tap to keep the session active
+  # (Requires xdotool on Linux; see note below for Mac)
+  if command -v xdotool &> /dev/null; then
+      xdotool key shift
+  fi
+  
+  sleep 60
+done
+
+echo "Session complete. You can now return to your day."
