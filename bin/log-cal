@@ -4,6 +4,7 @@ ZID=$(date "+%Y%m%d%H%M")
 ZET_DIR="${SECOND_BRAIN:-$HOME/Notes}/00-zettelkasten/zet"
 mkdir -p "$ZET_DIR"
 
+TIMESTAMP=$(date "+%Y%m%d%H%M")
 DATE_STR=$(date +%Y-%m-%d)
 TITLE="Daily Calorie Log - $DATE_STR"
 FILEPATH="$ZET_DIR/${ZID}-calorie-log-${DATE_STR}.md"
