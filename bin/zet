@@ -19,13 +19,20 @@ SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' | tr -s ' ' '_' | tr -dc 'a-z0
 FILEPATH="$ZET_DIR/${ZID}-${SLUG}.md"
 
 
-
+# --- Lino to Daily Note with Status Check --
 DAILY_DATE=$(date "+%Y-%m-%d")
+# Matching specific path: periodic-notes/daily-notes/
 DAILY_NOTE="${SECOND_BRAIN:-$HOME/Notes}/periodic-notes/daily-notes/${DAILY_DATE}-daily-note.md"
 
 if [ -f "$DAILY_NOTE" ]; then
-   # Ensure there's a newline before the link so it doesn't bunch up
-   echo -e "\n [[${ZID}-${SLUG}|${TITLE}]]" >> "$DAILY_NOTE"
+   # Add a header if it's teh first Zettel of the day
+   if ! grep -q "## Created Zettels" "$DAILY_NOTE"; then
+      echo -e "\n## Created Zettels" >> "$DAILY_NOTE"
+   fi
+   
+   # Append as a Task: - [ ] [[Filename|Title]]
+   # This lets us 'check it off' once the Zettel is fully processed/linked
+   echo "- [ ] [[${ZID}-${SLUG}|${TITLE}]]" >> "$DAILY_NOTE"
    echo "Added link to Daily Note: $DAILY_DATE"
 else
    echo "⚠️  Daily note for today not found. Skipping link."
