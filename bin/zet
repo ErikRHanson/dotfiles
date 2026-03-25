@@ -25,7 +25,7 @@ DAILY_DATE=$(date "+%Y-%m-%d")
 DAILY_NOTE="${SECOND_BRAIN:-$HOME/Notes}/periodic-notes/daily-notes/${DAILY_DATE}-daily-note.md"
 
 if [ -f "$DAILY_NOTE" ]; then
-   # Add a header if it's teh first Zettel of the day
+   # Add a header if it's the first Zettel of the day
    if ! grep -q "## Created Zettels" "$DAILY_NOTE"; then
       echo -e "\n## Created Zettels" >> "$DAILY_NOTE"
    fi
