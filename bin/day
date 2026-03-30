@@ -1,8 +1,15 @@
 #!/bin/bash
 
+if command -v gdate > /dev/null 2>&1; then
+   DATE_BIN="gdate"
+else
+   DATE_BIN="date"
+fi
+
+
 today=$(date +"%Y-%m-%d")
-tomorrow=$(gdate -d "tomorrow" '+%Y-%m-%d')
-yesterday=$(gdate -d "yesterday" '+%Y-%m-%d')
+tomorrow=$($DATE_BIN -d "tomorrow" '+%Y-%m-%d')
+yesterday=$(DATE_BIN -d "yesterday" '+%Y-%m-%d')
 TITLE=$(echo "${today}-daily-note")
 TITLE_YESTERDAY=$(echo "${yesterday}-daily-note")
 TITLE_TOMORROW=$(echo "${tomorrow}-daily-note")
