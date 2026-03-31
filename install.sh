@@ -9,7 +9,7 @@ echo "🚀 Starting 2025 Dotfile Setup..."
 # 1. Create necessary directories
 mkdir -p "$CONFIG_DIR/nvim"
 
-# 2. Cloning in LazyVim
+# 2. Clone in LazyVim
 git clone https://github.com/LazyVim/starter ~/.config/nvim
 rm -rf ~/.config/nvim/.git
 
