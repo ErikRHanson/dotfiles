@@ -35,7 +35,6 @@ title: "$TITLE"
 date: $TIMESTAMP
 tags: [daily-note]
 ---
-
 $file
 
 # $today

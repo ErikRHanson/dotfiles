@@ -5,7 +5,6 @@
 ZID=$(date "+%Y%m%d%H%M")
 TIMESTAMP=$(date "+%Y-%m-%d %H:%M")
 
-
 # Pathing (using $SECOND_BRAIN variable)
 # Defaulting to ~/Notes if $SECOND_BRAIN isn't set in environment
 ZET_DIR="${SECOND_BRAIN:-$HOME/Notes}/00-zettelkasten/zet"
@@ -18,29 +17,28 @@ TITLE="${1:-New Zettel}"
 SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' | tr -s ' ' '_' | tr -dc 'a-z0-0-')
 FILEPATH="$ZET_DIR/${ZID}-${SLUG}.md"
 
-
 # --- Lino to Daily Note with Status Check --
 DAILY_DATE=$(date "+%Y-%m-%d")
 # Matching specific path: periodic-notes/daily-notes/
 DAILY_NOTE="${SECOND_BRAIN:-$HOME/Notes}/periodic-notes/daily-notes/${DAILY_DATE}-daily-note.md"
 
 if [ -f "$DAILY_NOTE" ]; then
-   # Add a header if it's the first Zettel of the day
-   if ! grep -q "## Created Zettels" "$DAILY_NOTE"; then
-      echo -e "\n## Created Zettels" >> "$DAILY_NOTE"
-   fi
-   
-   # Append as a Task: - [ ] [[Filename|Title]]
-   # This lets us 'check it off' once the Zettel is fully processed/linked
-   echo "- [ ] [[${ZID}-${SLUG}|${TITLE}]]" >> "$DAILY_NOTE"
-   echo "Added link to Daily Note: $DAILY_DATE"
+  # Add a header if it's the first Zettel of the day
+  if ! grep -q "## Created Zettels" "$DAILY_NOTE"; then
+    echo -e "\n## Created Zettels" >>"$DAILY_NOTE"
+  fi
+
+  # Append as a Task: - [ ] [[Filename|Title]]
+  # This lets us 'check it off' once the Zettel is fully processed/linked
+  echo "- [ ] [[${ZID}-${SLUG}|${TITLE}]]" >>"$DAILY_NOTE"
+  echo "Added link to Daily Note: $DAILY_DATE"
 else
-   echo "⚠️  Daily note for today not found. Skipping link."
+  echo "⚠️  Daily note for today not found. Skipping link."
 fi
 
 # Create Template if it doesn't exist
 if [ ! -f "$FILEPATH" ]; then
-	cat <<EOF > "$FILEPATH"
+  cat <<EOF >"$FILEPATH"
 ---
 id: $ZID
 title: "$TITLE"
@@ -59,7 +57,7 @@ tags: [unprocessed]
 ## References
 - 
 EOF
-	echo "Created Zettel: $FILEPATH"
+  echo "Created Zettel: $FILEPATH"
 fi
 
 # Open in Neovim
