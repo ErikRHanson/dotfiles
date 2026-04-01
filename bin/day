@@ -9,7 +9,7 @@ fi
 
 today=$(date +"%Y-%m-%d")
 tomorrow=$($DATE_BIN -d "tomorrow" '+%Y-%m-%d')
-yesterday=$(DATE_BIN -d "yesterday" '+%Y-%m-%d')
+yesterday=$($DATE_BIN -d "yesterday" '+%Y-%m-%d')
 TITLE=$(echo "${today}-daily-note")
 TITLE_YESTERDAY=$(echo "${yesterday}-daily-note")
 TITLE_TOMORROW=$(echo "${tomorrow}-daily-note")
