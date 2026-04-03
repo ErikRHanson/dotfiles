@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# 1. Handle the "build" flag
+if [[ "$1" == "-b" || "$1" == "--build" ]]; then
+  echo "🚧 Build mode triggered!"
+  echo "This is a stub. Eventually, this will run things like:"
+  echo "  - Syncing/copying blog-tagged files to the Hugo content directory"
+  echo "  - Running 'hugo' to compile the static site"
+  echo "  - Deploying to a server or pushing to a repo"
+  exit 0
+fi
+
+# 2. Setup ID and Timestamp
+# Zettelkasten ID: YYYYMMDDHHMM
+ZID=$(date "+%Y%m%d%H%M")
+# Hugo prefers full ISO-8601-like timestamps for sorting
+TIMESTAMP=$(date "+%Y-%m-%dT%H:%M:%S%z")
+
+# Pathing (using $SECOND_BRAIN variable)
+ZET_DIR="${SECOND_BRAIN:-$HOME/Notes}/00-zettelkasten/zet"
+mkdir -p "$ZET_DIR"
+
+# Handle Title and Filename
+TITLE="${1:-New Blog Post}"
+# Slugify the title for the filename (replacing spaces with hyphens instead of underscores for SEO/URLs)
+SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' | tr -s ' ' '-' | tr -dc 'a-z0-0-')
+FILEPATH="$ZET_DIR/${ZID}-${SLUG}.md"
+
+# --- Link to Daily Note with Status Check ---
+DAILY_DATE=$(date "+%Y-%m-%d")
+DAILY_NOTE="${SECOND_BRAIN:-$HOME/Notes}/periodic-notes/daily-notes/${DAILY_DATE}-daily-note.md"
+
+if [ -f "$DAILY_NOTE" ]; then
+  if ! grep -q "## Created Zettels" "$DAILY_NOTE"; then
+    echo -e "\n## Created Zettels" >>"$DAILY_NOTE"
+  fi
+  # Track it in the daily note
+  echo "- [ ] [[${ZID}-${SLUG}|${TITLE}]] (Blog Draft)" >>"$DAILY_NOTE"
+  echo "Added link to Daily Note: $DAILY_DATE"
+else
+  echo "⚠️  Daily note for today not found. Skipping link."
+fi
+
+# Create Template with Hugo-compatible Frontmatter
+if [ ! -f "$FILEPATH" ]; then
+  cat <<TEMPLATE >"$FILEPATH"
+---
+title: "$TITLE"
+date: $TIMESTAMP
+draft: true
+tags:
+  - blog
+  - unprocessed
+id: $ZID
+---
+
+# $TITLE
+
+## Introduction
+<!-- Hook your reader and explain the premise -->
+
+## The Core Idea
+<!-- Expand on the Zettelkasten note thoughts here -->
+
+## Conclusion
+<!-- Wrap it up -->
+
+TEMPLATE
+  echo "Created Blog Draft: $FILEPATH"
+fi
+
+# Open in Neovim
+nvim "$FILEPATH"
