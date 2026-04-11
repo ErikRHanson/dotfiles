@@ -4,7 +4,7 @@
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG_DIR="$HOME/.config"
 
-echo "🚀 Starting 2025 Dotfile Setup..."
+echo "🚀 Starting 2026 Dotfile Setup..."
 
 # 1. Create necessary directories
 mkdir -p "$CONFIG_DIR/nvim"

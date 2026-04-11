@@ -1,0 +1,50 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starchip.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+# Use custom format
+format = """
+$directory\
+$git_branch\
+$git_status\
+$package\
+$rust\
+$python\
+$nodejs\
+$go\
+$line_break\
+$character"""
+
+[directory]
+style = "bold cyan"
+truncation_length = 3
+truncation_symbol = ".../"
+
+[git_branch]
+symbol = " "
+style = "bold purple"
+format = "on [$symbol$branch]($style) "
+
+[git_status]
+style = "bold red"
+format = "([\\[$all_status$ahead_behind\\]]($style) )"
+
+[character]
+success_symbol = "[󰘧 ](bold green)"
+error_symbol = "[󰘧 ](bold red)"
+
+[python]
+symbol = " "
+format = "via [${symbol}${pyenv_prefix}(${version} )(\\($virtualenv\\) )]($style)"
+
+[nodejs]
+symbol = " "
+format = "via [${symbol}($version )]($style)"
+
+[cmd_duration]
+min_time = 500
+format = "took [$duration]($style) "
+
+
