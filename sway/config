@@ -230,3 +230,26 @@ bar {
 }
 
 include /etc/sway/config.d/*
+
+
+
+
+# --- 1. Workspace Assignments --- 
+# This makes sure the apps ALWAYS go to their assigned homes
+# assign [app_id="Alacritty"] -> workspace number 1
+# assign [class="Vivaldi-stable"] 2
+# assign [app_id="vivaldi-stable"] 2
+for_window [app_id="vivaldi-stable"] move container to workspace number 2
+for_window [app_id="obsidian"] move container to workspace number 3
+
+# --- 2. The Autostart (NVIDIA-Safe Version) --- 
+# We chain the commands to ensure Sway focuses the right workspace
+# before launching, which prevens "flicker" with the 1050 Ti.
+exec swaymsg 'workspace number 1; exec alacritty -e tmux'
+exec sleep 1 && swaymsg 'workspace number 2; exec vivaldi-stable'
+exec sleep 2 && swaymsg 'workspace number 3; exec obsidian'
+
+# ---3. Return Focus to Workspace 1 --- 
+# This ensures that when you log in, you're looking at the terminal
+exec swaymsg 'workspace number 1'
+

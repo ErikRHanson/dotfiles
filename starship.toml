@@ -1,6 +1,9 @@
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
+# Increase scan_timeout to 1000ms (1 second)
+scan_timeout = 1000
+
 # Inserts a blank line between shell prompts
 add_newline = true
 
