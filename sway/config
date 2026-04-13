@@ -245,7 +245,7 @@ for_window [app_id="obsidian"] move container to workspace number 3
 # --- 2. The Autostart (NVIDIA-Safe Version) --- 
 # We chain the commands to ensure Sway focuses the right workspace
 # before launching, which prevens "flicker" with the 1050 Ti.
-exec swaymsg 'workspace number 1; exec alacritty -e tmux'
+exec swaymsg 'workspace number 1; exec alacritty -e tmux attach || tmux'
 exec sleep 1 && swaymsg 'workspace number 2; exec vivaldi-stable'
 exec sleep 2 && swaymsg 'workspace number 3; exec obsidian'
 
