@@ -37,3 +37,11 @@ source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
+# If not running interactively, don't do anything
+# [[ $- != *i* ]] && return
+
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+# PS1='[\u@\h \W]\$ '
+
+source "$HOME/Repos/github.com/erikrhanson/dotfiles/exports.sh"

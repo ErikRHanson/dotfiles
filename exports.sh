@@ -11,4 +11,4 @@ export EDITOR="nvim"
 alias v='nvim'
 
 # eval starship for our super nifty cli prompts
-eval "$(starship init bash)"
+# eval "$(starship init bash)"
