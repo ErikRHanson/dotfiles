@@ -253,3 +253,10 @@ exec sleep 2 && swaymsg 'workspace number 3; exec obsidian'
 # This ensures that when you log in, you're looking at the terminal
 exec swaymsg 'workspace number 1'
 
+# Cliphist: store both text AND images (recommended for Vivaldi)
+exec wl-paste --type text --watch cliphist store
+exec wl-paste --type image --watch cliphist store
+
+# Clipboard history picker with wofi (Super + Shift + v)
+bindsym $mod+Shift+v exec cliphist list | wofi --dmenu --prompt "Clipboard:" | cliphist decode | wl-copy
+
