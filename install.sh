@@ -4,6 +4,25 @@
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG_DIR="$HOME/.config"
 
+# Build the source line dynamically from DOTFILES_DIR
+SOURCE_LINE="source \"${DOTFILES_DIR}/exports.sh\""
+
+add_source_to_shellrc() {
+  local rc_file="$1"
+
+  if [[ -f "$rc_file" ]]; then
+    if ! grep -qF "source \"${DOTFILES_DIR}/exports.sh\"" "$rc_file" &&
+      ! grep -qF 'source "$HOME/Repos/github.com/erikrhanson/dotfiles/exports.sh"' "$rc_file"; then
+      echo "" >>"$rc_file"
+      echo "# Added by dotfiles installer" >>"$rc_file"
+      echo "$SOURCE_LINE" >>"$rc_file"
+      echo "✓ Added source line to $rc_file"
+    else
+      echo "→ Source line already exists in $rc_file"
+    fi
+  fi
+}
+
 echo " Starting 2026 Dotfile Setup..."
 
 # 1. Create necessary directories
@@ -32,9 +51,14 @@ if [ -f "$DOTFILES_DIR/starship.toml" ]; then
   ln -sf "$DOTFILES_DIR/starship.toml" "$CONFIG_DIR/starship.toml"
 fi
 
+# 7. Add to shell configs
+add_source_to_shellrc "$HOME/.bashrc"
+add_source_to_shellrc "$HOME/.zshrc"
+add_source_to_shellrc "$HOME/.profile"
+
 echo "✅ All links created!"
 
-# 7. Post-install: Refresh Tmux settings if inside a session
+# 8. Post-install: Refresh Tmux settings if inside a session
 if [ -n "$TMUX" ]; then
   tmux source-file ~/.tmux.conf
   echo "Sync'd Tmux config."
