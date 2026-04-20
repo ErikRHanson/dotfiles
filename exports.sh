@@ -12,3 +12,6 @@ alias v='nvim'
 
 # eval starship for our super nifty cli prompts
 # eval "$(starship init bash)"
+
+# Use PodMan for our Docker needs
+export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/podman/podman.sock"
