@@ -20,7 +20,7 @@ FILEPATH="$ZET_DIR/${ZID}-${SLUG}.md"
 # --- Lino to Daily Note with Status Check --
 DAILY_DATE=$(date "+%Y-%m-%d")
 # Matching specific path: periodic-notes/daily-notes/
-DAILY_NOTE="${SECOND_BRAIN:-$HOME/Notes}/periodic-notes/daily-notes/${DAILY_DATE}-daily-note.md"
+DAILY_NOTE="${SECOND_BRAIN:-$HOME/Notes}/periodic-notes/daily-notes/${DAILY_DATE}.md"
 
 if [ -f "$DAILY_NOTE" ]; then
   # Add a header if it's the first Zettel of the day
